@@ -43,17 +43,20 @@ public class PatientsInformationController implements Initializable {
         //declaramos botones
             @FXML 
         private Button back;
-            
-        @FXML TextField patientinfo;    
+    
                @FXML
         private Label title;
-        @FXML private Label label1;
+               
+            @FXML 
+        private Label label1;
             
             private static PatientManagerInterface pmi;
             private static Database.DBManagerInterface dbman;
             private static BufferedReader br;
             private  PatientManager pm;
-        
+            
+            private Patient selectedpatient;
+            
          public void start(Stage primaryStage) throws Exception {
 
            Parent root = FXMLLoader.load(getClass().getResource("PatientsInformation.fxml"));
@@ -68,16 +71,10 @@ public class PatientsInformationController implements Initializable {
 
        }
          
-                        @FXML
-           public void AniadirPatient (ActionEvent event) throws IOException{
-               
-               Patient p= new Patient();
-               
-               //p = pmi.searchSpecificPatientByDNI(AccessInformationController.pat.getDni()); //
-               
-               patientinfo.setText(p.toString() + "\n");//para imprimir ese patient en texto
-               System.out.println(p.toString() + "\n"); //para imprimirlo en consola?? NO SE
-                   
+                    @FXML
+           public void showPatient (Patient patient){
+               selectedpatient= patient;
+               label1.setText(selectedpatient.toString());
            }
            
  

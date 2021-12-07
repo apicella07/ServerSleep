@@ -49,6 +49,11 @@ public class AccessInformationController implements Initializable {
     private Button goback;
     @FXML
     private TextField dniTF;
+    @FXML
+    private Label title;
+    @FXML
+    private Label instruction;
+    
     String dni;
     private static PatientManagerInterface pmi;
     private static Database.DBManagerInterface dbman;
@@ -91,11 +96,15 @@ public class AccessInformationController implements Initializable {
             dni=dniTF.getText();
             Patient pat=pmi.searchSpecificPatientByDNI(dni);
             if (pat !=null){
-                Parent root = FXMLLoader.load(getClass().getResource("PatientsInformation.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("PatientsInformation.fxml"));
+                Parent root = loader.load();
                 Scene loginScene = new Scene(root);
 
                 Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-
+                PatientsInformationController controller = loader.getController();
+                controller.showPatient(pat);
+                        
                 window.setScene(loginScene);
                 window.show();
             
@@ -117,6 +126,7 @@ public class AccessInformationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
     }    
     
 }
