@@ -218,7 +218,7 @@ public class Patient implements Serializable{
 
     @Override
     public String toString() {
-        return "Patient{" + "id=" + id + ", name=" + name + ", lastname=" + lastname + ", telephone=" + telephone + ", address=" + address + ", dateOfBirth=" + dateOfBirth + ", dni=" + dni +  '}';
+        return "Patient{" + "id=" + id + ", name=" + name + ", lastname=" + lastname + ", telephone=" + telephone + ", address=" + address + ", dateOfBirth=" + dateOfBirth + ", dni=" + dni + ", gender= "+gender+ '}';
     }
 
    

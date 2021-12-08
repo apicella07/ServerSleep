@@ -54,6 +54,12 @@ public class ConnectionFileThreads implements Runnable{
         }
     }
     
+    public static void main(String[] args) throws IOException {
+        // ClassNotFoundException, ParseException, UnknownHostException
+        
+        
+    }
+    
     private static void releaseResourcesFile(BufferedWriter bu,InputStream inputStream,FileWriter flwriter , Socket socket) {
         try {
             inputStream.close();
