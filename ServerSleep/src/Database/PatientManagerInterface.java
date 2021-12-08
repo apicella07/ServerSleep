@@ -11,6 +11,7 @@ import java.util.Date;
 
 
 
+
 public interface PatientManagerInterface {
    public void addpatientbyRegister(Patient pat);
    public Patient searchSpecificPatientByDNI(String dni);
@@ -19,12 +20,11 @@ public interface PatientManagerInterface {
    public void addDailyreport(Report rep);
    public ArrayList<Report> reportHistory(String dni);
    public  Report getDailyReport(java.util.Date  dateReport);
-   public Signals viewEEG(String dni, java.util.Date date);
    public ArrayList<Signals> viewEEGHistory(String dni);
-   public Signals viewEEGLUX(String dni, java.util.Date date);
-
-    
+    public void viewEEGString(String dni);
+    public void viewEEGStringLUX(String dni);
     
     
 
 }
+

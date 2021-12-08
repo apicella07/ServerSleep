@@ -17,10 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
-/**
- *
- * @author marin
- */
+
 public class Menu {
    private Connection c;
     private static Database.DBManagerInterface dbman;
@@ -30,7 +27,7 @@ public class Menu {
     private static Patient patientUsing = new Patient();
     private static int num,numUsing;
     private static boolean inUse;
-    private static boolean logged;
+    private static boolean patFound;
     private static String ipString;
     private static InetAddress ip;
 
@@ -42,16 +39,20 @@ public class Menu {
         br = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
         
+        
         inUse=false;
-        logged=false;
+        patFound=false; //PONER A FALSE 
         int max;
         System.out.println("WELCOME TO SLEEP CONTROL MANAGER\n");
         
         while(true){
-            searchbyDNI(); //Now variable patientUsing is the patient with this DNI
-            System.out.println("What do you want to do?\n"+"1.View patient's EEG history.\n"+"2.View patient's report history.\n"+"3.View patient's personal information"+"4.Receive an EEG of your patient.");
+           System.out.println("What do you want to do? \n 1. Introduce the DNI of the patient\n ");
+            max=1;
+            if(patFound){
+                 System.out.println("What do you want to do?\n"+"2.View patient's EEG history.\n"+"3.View patient's report history.\n"+"4.View patient's personal information"+"5.Receive an EEG of your patient.");
+                max=5;
+            }
             System.out.println("0. Exit.\n");
-            max=4;
             num=requestNumber(max);
             numUsing=num;
             inUse=true;
@@ -59,21 +60,24 @@ public class Menu {
             while(inUse){
                 switch(numUsing){
                     case 1:
-                        viewEEGHistory(patientUsing.getDni());
+                        searchbyDNI();//Now variable patientUsing is the patient with this DNI
                         break;
                     case 2:
-                        reportHistory(patientUsing.getDni());
+                        viewEEGHistory(patientUsing.getDni());
                         break;
                     case 3:
-                        System.out.println(patientUsing.toString());
+                        reportHistory(patientUsing.getDni());
                         break;
                     case 4:
+                        System.out.println(patientUsing.toString());
+                        break;
+                    case 5:
                         //receivePatient();
-                        //receiveEEG();
+                        //receiveEEG(); in real time?
                         break;
                     default:
                         inUse=false;
-                        logged=false;  
+                        patFound=false;  
                         break;
                 }
                 break; //NO ESTOY SEGURA DE SI ESTE TENGO QUE PONERLO HASTA QUE NO LO PRUEBE
@@ -86,11 +90,21 @@ public class Menu {
     
 
     
+
+    
     public static void searchbyDNI() throws IOException{
         System.out.println("Type the dni of the patient you want to search" );
         String dniobtained = br.readLine();
         patientUsing = pmi.searchSpecificPatientByDNI(dniobtained);
-        System.out.println("The patient is:" +patientUsing.toString());
+        if (patientUsing.getDni().equals(dniobtained)) {
+                 System.out.println("The patient you obtained is: " +patientUsing);
+        }
+        else{
+                System.out.println("Wrong DNI, please select an option: ");
+                System.out.println("1. Introduce them again. ");
+	System.out.println("0. Go back to the menu. ");
+           
+        }
        
     }
     
@@ -115,20 +129,18 @@ public class Menu {
               System.out.println("");
           }
        }
-       public static void viewEEGHistory(String dni){
-            ArrayList<Signals> eegs = new ArrayList<Signals>();
-
-          Signals neweeg;
+   
+         public static void viewEEGHistory(String dni){
+          ArrayList<Signals> eegs = new ArrayList<Signals>();
+          Signals eeg;
           eegs = pmi.viewEEGHistory(dni);
           Iterator it = eegs.iterator();
-
           while(it.hasNext()){
-              neweeg = (Signals) it.next();
-              System.out.println(neweeg.toString());
+              eeg = (Signals) it.next();
+              System.out.println(eeg.toStringWithoutValues());
               System.out.println("");
           }
        }
-       
       
        public static int requestNumber(int max) {
 		// int max is the maximum option that is acceptable
@@ -153,3 +165,6 @@ public class Menu {
 
        
 }
+
+
+

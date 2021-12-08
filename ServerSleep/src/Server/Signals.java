@@ -3,6 +3,7 @@ package Server;
 
 import java.io.*;
 import java.net.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
@@ -10,29 +11,41 @@ import java.util.logging.Logger;
 
 
 public class Signals implements Serializable {
-    ArrayList<Integer> eegValues = new ArrayList<Integer>();
+     ArrayList<Integer> eegValues = new ArrayList<Integer>();
      ArrayList<Integer> eegLUX = new ArrayList<Integer>();
      private String dni;
-     private Date eegDate;
+     private LocalDate eegDate;
+     private Date eegDatenormal;
 
      
     public Signals(){
         super();
     }
     
-    public Signals(Date eegdate,String dni,ArrayList<Integer> eegVals, ArrayList<Integer> eegLUX){
+    public Signals(LocalDate eegdate,String dni,ArrayList<Integer> eegVals, ArrayList<Integer> eegLUX){
         super();
         this.dni=dni;
         this.eegDate=eegdate;
         this.eegValues=eegVals;
         this.eegLUX=eegLUX;
     }
+    public Signals(java.util.Date eegdate,String dni){
+        super();
+        this.dni=dni;
+        this.eegDatenormal=eegdate;
+    }
     
-    public Signals(Date eegdate,String dni,ArrayList<Integer> eegVals){
+    public Signals(LocalDate eegdate,String dni,ArrayList<Integer> eegVals){
         super();
         this.dni=dni;
         this.eegDate=eegdate;
         this.eegValues=eegVals;
+    }
+    public Signals(LocalDate eegdate,ArrayList<Integer> eegVals,ArrayList<Integer> eegLUX){
+        super();
+        this.eegDate=eegdate;
+        this.eegValues=eegVals;
+        this.eegLUX=eegLUX;
     }
     
     
@@ -48,7 +61,7 @@ public class Signals implements Serializable {
         this.eegValues = eegValues;
     }
 
-    public void setEegDate(Date eegDate) {
+    public void setEegDate(LocalDate eegDate) {
         this.eegDate = eegDate;
     }
 
@@ -56,20 +69,23 @@ public class Signals implements Serializable {
         return dni;
     }
 
-    public Date getEegDate() {
+    public LocalDate getEegDate() {
         return eegDate;
     }
-     
+
 
     public ArrayList<Integer> getEegValues() {
         return eegValues;
     }
+    
+    public String toStringWithoutValues() {
+        return "Signals{" + "dni=" + dni + ", eegDate=" + eegDatenormal + '}';
+    }
 
     @Override
     public String toString() {
-        return "Signals{" + "eegValues=" + eegValues + ", eegLUX=" + eegLUX + ", dni=" + dni + ", eegDate=" + eegDate + '}';
+        return "Signals{" + "dni=" + dni + ", eegDate=" + eegDate + ", eegValues=" + eegValues + ", eegLUX=" + eegLUX + '}';
     }
-
 
    
 }
