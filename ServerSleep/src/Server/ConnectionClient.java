@@ -18,6 +18,56 @@ import java.util.logging.*;
  * @author marin
  */
 public class ConnectionClient  {
+    
+    public static void receivePatient() throws IOException{
+        ServerSocket serverSocket = new ServerSocket(9010);
+        try{
+            while (true) {
+                Socket socket = serverSocket.accept();
+                new Thread(new ConnectionClientThreads(socket)).start();
+                
+            }
+        }finally{
+            releaseResources(serverSocket);
+        }
+    }
+    
+    public static void receiveReport() throws IOException{
+        ServerSocket serverSocket = new ServerSocket(9010);
+        try{
+            while (true) {
+                Socket socket = serverSocket.accept();
+                new Thread(new ConnectionReportThreads(socket)).start();
+                
+            }
+        }finally{
+            releaseResources(serverSocket);
+        }
+    }
+    
+    public static void receiveFile() throws IOException{
+        ServerSocket serverSocket = new ServerSocket(9010);
+        try{
+            while (true) {
+                Socket socket = serverSocket.accept();
+                new Thread(new ConnectionFileThreads(socket)).start();
+                
+            }
+        }finally{
+            releaseResources(serverSocket);
+        }
+    }
+    
+    private static void releaseResources(ServerSocket serverSocket){
+       try {
+            serverSocket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
+        
+    
     /*public static Patient receivePatient() throws ParseException {
         
         InputStream is = null;
@@ -63,22 +113,7 @@ public class ConnectionClient  {
             releaseResources(buf, socket, serversocket);
         }
         return pat;
-    }*/
-    
-    public static void receivePatient() throws IOException{
-        ServerSocket serverSocket = new ServerSocket(9010);
-        try{
-            while (true) {
-                Socket socket = serverSocket.accept();
-                new Thread(new ConnectionClientThreads(socket)).start();
-                
-            }
-        }finally{
-            releaseResources(serverSocket);
-        }
-    }
-    
-    
+    }*/ 
     
     /*public static Report receiveReport() throws ParseException {
         InputStream is = null;
@@ -132,20 +167,7 @@ public class ConnectionClient  {
         return rep;
     }*/
     
-        public static void receiveReport() throws IOException{
-        ServerSocket serverSocket = new ServerSocket(9010);
-        try{
-            while (true) {
-                Socket socket = serverSocket.accept();
-                new Thread(new ConnectionReportThreads(socket)).start();
-                
-            }
-        }finally{
-            releaseResources(serverSocket);
-        }
-    }
-    
-    public static FileWriter receiveFile() {
+    /*public static FileWriter receiveFile() {
         int byteRead;
         FileWriter file1=null;
         ServerSocket serverSocket=null;
@@ -170,18 +192,9 @@ public class ConnectionClient  {
             releaseResourcesServer(buf,serverSocket);
         }
         return file1;
-    }
-    
-    
-    private static void releaseResources(ServerSocket serverSocket){
-       try {
-            serverSocket.close();
-        } catch (IOException ex) {
-            Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-    }
-    
-    
+    }*/
+
+    /*
     private static void releaseResources(BufferedReader bu, Socket socket, ServerSocket serverSocket) {
 
         try {
@@ -214,12 +227,13 @@ public class ConnectionClient  {
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }*/
     
     public static void main(String[] args) throws IOException {
         // ClassNotFoundException, ParseException, UnknownHostException
         receivePatient();
         receiveReport();
+        receiveFile();
         
     }
 
