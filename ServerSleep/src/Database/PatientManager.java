@@ -185,32 +185,32 @@ public class PatientManager implements PatientManagerInterface  {
     /**
      * Returns a Patient's object with all its attributes knowing the DNI
      * @param dni of the patient you are looking for 
-     * @return the patient with this dni
+     * @return the patient with this dni or null if there is not patient in the database with this dni
      */
     @Override
-         public  Patient searchSpecificPatientByDNI(String dni){
-             Patient patientfound=new Patient();
-		try {
-			String sql = "SELECT * FROM Patients WHERE dni LIKE ?";
-			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setString(1, "%"+dni+"%");
-			ResultSet rs = prep.executeQuery();
-			
-			while(rs.next()) {
-				int id = rs.getInt("patient_id");
-				String name = rs.getString("name");
-				String lastname = rs.getString("lastname");
-                                String tele = rs.getString("telephone");
-                                String address = rs.getString("address");
-                                java.util.Date dob=rs.getDate("dob");
-                                String gender = rs.getString("gender");
-				patientfound = new Patient(id,name,lastname,tele,address,dob,dni,gender);
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return patientfound;
-         }
+    public  Patient searchSpecificPatientByDNI(String dni){
+         Patient patientfound=null;
+            try {
+                String sql = "SELECT * FROM Patients WHERE dni LIKE ?";
+                PreparedStatement prep = c.prepareStatement(sql);
+                prep.setString(1, "%"+dni+"%");
+                ResultSet rs = prep.executeQuery();
+
+                while(rs.next()) {
+                        int id = rs.getInt("patient_id");
+                        String name = rs.getString("name");
+                        String lastname = rs.getString("lastname");
+                        String tele = rs.getString("telephone");
+                        String address = rs.getString("address");
+                        java.util.Date dob=rs.getDate("dob");
+                        String gender = rs.getString("gender");
+                        patientfound = new Patient(id,name,lastname,tele,address,dob,dni,gender);
+                }
+            }catch(Exception e) {
+                    e.printStackTrace();
+            }
+            return patientfound;
+     }
 
     /**
      * Returns a patient object with known attributes knowing the dni

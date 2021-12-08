@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="serversleepapp.PatientsInformationController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="serversleepapp.PatientsInformationController">
    <children>
-      <Button layoutX="39.0" layoutY="335.0" mnemonicParsing="false" onAction="#goBackMenuOptions" text="Back" />
+      <Button fx:id="back" layoutX="39.0" layoutY="335.0" mnemonicParsing="false" onAction="#goBackMenuOptions" text="Back" />
       <Label fx:id="title" layoutX="142.0" layoutY="98.0" prefHeight="35.0" prefWidth="288.0" text="PATIENT INFORMATION" underline="true">
          <font>
             <Font size="24.0" />
