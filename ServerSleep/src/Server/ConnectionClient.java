@@ -18,7 +18,8 @@ import java.util.logging.*;
  * @author marin
  */
 public class ConnectionClient  {
-    public static Patient receivePatient() throws ParseException {
+    /*public static Patient receivePatient() throws ParseException {
+        
         InputStream is = null;
         ServerSocket serversocket = null;
         Socket socket = null;
@@ -62,7 +63,21 @@ public class ConnectionClient  {
             releaseResources(buf, socket, serversocket);
         }
         return pat;
+    }*/
+    
+    public static void receivePatient() throws IOException{
+        ServerSocket serverSocket = new ServerSocket(9010);
+        try{
+            while (true) {
+                Socket socket = serverSocket.accept();
+                new Thread(new ConnectionClientThreads(socket)).start();
+                
+            }
+        }finally{
+            releaseResources(serverSocket);
+        }
     }
+    
     
     
     public static Report receiveReport() throws ParseException {
@@ -145,6 +160,14 @@ public class ConnectionClient  {
     }
     
     
+    private static void releaseResources(ServerSocket serverSocket){
+       try {
+            serverSocket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
     
     private static void releaseResources(BufferedReader bu, Socket socket, ServerSocket serverSocket) {
 
@@ -180,8 +203,8 @@ public class ConnectionClient  {
         }
     }
     
-    public static void main(String[] args) throws ClassNotFoundException, ParseException, UnknownHostException {
-        
+    public static void main(String[] args) throws IOException {
+        // ClassNotFoundException, ParseException, UnknownHostException
         receivePatient();
         //receiveReport();
         
