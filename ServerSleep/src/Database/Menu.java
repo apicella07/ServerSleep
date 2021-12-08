@@ -44,8 +44,8 @@ public class Menu {
            System.out.println("Press 1 to introduce the DNI of the patient\n ");
             max=1;
             if(patFound){
-                 System.out.println("\nWhat do you want to do?\n"+"2.View patient's EEG history.\n"+"3.View patient's report history.\n"+"4.View patient's personal information.\n"+"5.Go search for another patient.");//+"6.Receive an EEG of your patient.");
-                max=5;
+                 System.out.println("\nWhat do you want to do?\n"+"2.View patient's EEG values.\n"+"3.View patient's EEG with LUX values.\n"+"4.View patient's EEG history.\n"+"5.View patient's report history.\n"+"6.View patient's personal information.\n"+"7.Go search for another patient.");//+"8.Receive an EEG of your patient.");
+                max=7;
             }
             System.out.println("0. Exit.\n");
             num=requestNumber(max);
@@ -62,15 +62,21 @@ public class Menu {
                         }
                         break;
                     case 2:
-                        viewEEGHistory(patientUsing.getDni());
+                        viewEEG(patientUsing.getDni()); 
                         break;
                     case 3:
-                        reportHistory(patientUsing.getDni());
+                        viewEEGLUX(patientUsing.getDni()); 
                         break;
                     case 4:
-                        System.out.println(patientUsing.toString());
+                        viewEEGHistory(patientUsing.getDni());
                         break;
                     case 5:
+                        reportHistory(patientUsing.getDni());
+                        break;
+                    case 6:
+                        System.out.println(patientUsing.toString());
+                        break;
+                    case 7:
                         inUse=false;
                         patFound=false;
                         patientUsing=new Patient();
@@ -121,6 +127,13 @@ public class Menu {
         } while(check);
         
        
+    }
+    public static void viewEEG(String dni) throws IOException {
+       pmi.viewEEGString(dni); 
+
+    }
+    public static void viewEEGLUX(String dni) {
+        pmi.viewEEGStringLUX(dni); 
     }
     
        public static void getReport() throws IOException{
