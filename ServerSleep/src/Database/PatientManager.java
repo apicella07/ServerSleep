@@ -191,7 +191,7 @@ public class PatientManager implements PatientManagerInterface  {
          public  Patient searchSpecificPatientByDNI(String dni){
              Patient patientfound=new Patient();
 		try {
-			String sql = "SELECT * FROM Patients WHERE dni = ?";
+			String sql = "SELECT * FROM Patients WHERE dni LIKE ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, "%"+dni+"%");
 			ResultSet rs = prep.executeQuery();

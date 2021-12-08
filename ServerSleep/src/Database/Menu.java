@@ -49,7 +49,7 @@ public class Menu {
            System.out.println("What do you want to do? \n 1. Introduce the DNI of the patient\n ");
             max=1;
             if(patFound){
-                 System.out.println("What do you want to do?\n"+"2.View patient's EEG history.\n"+"3.View patient's report history.\n"+"4.View patient's personal information"+"5.Receive an EEG of your patient.");
+                 System.out.println("What do you want to do?\n"+"2.View patient's EEG history.\n"+"3.View patient's report history.\n"+"4.View patient's personal information \n"+"5.Receive an EEG of your patient.");
                 max=5;
             }
             System.out.println("0. Exit.\n");
@@ -96,8 +96,10 @@ public class Menu {
         System.out.println("Type the dni of the patient you want to search" );
         String dniobtained = br.readLine();
         patientUsing = pmi.searchSpecificPatientByDNI(dniobtained);
-        if (patientUsing.getDni().equals(dniobtained)) {
+        //if (patientUsing.getDni().equals(dniobtained)) {
                  System.out.println("The patient you obtained is: " +patientUsing);
+                 patFound =true;
+                 /*
         }
         else{
                 System.out.println("Wrong DNI, please select an option: ");
@@ -105,7 +107,7 @@ public class Menu {
 	System.out.println("0. Go back to the menu. ");
            
         }
-       
+       */
     }
     
        public static void getReport() throws IOException{
