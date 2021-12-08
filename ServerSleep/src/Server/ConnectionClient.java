@@ -80,7 +80,7 @@ public class ConnectionClient  {
     
     
     
-    public static Report receiveReport() throws ParseException {
+    /*public static Report receiveReport() throws ParseException {
         InputStream is = null;
         ServerSocket serversocket = null;
         Socket socket = null;
@@ -130,6 +130,19 @@ public class ConnectionClient  {
             releaseResources(buf, socket, serversocket);
         }
         return rep;
+    }*/
+    
+        public static void receiveReport() throws IOException{
+        ServerSocket serverSocket = new ServerSocket(9010);
+        try{
+            while (true) {
+                Socket socket = serverSocket.accept();
+                new Thread(new ConnectionReportThreads(socket)).start();
+                
+            }
+        }finally{
+            releaseResources(serverSocket);
+        }
     }
     
     public static FileWriter receiveFile() {
@@ -206,7 +219,7 @@ public class ConnectionClient  {
     public static void main(String[] args) throws IOException {
         // ClassNotFoundException, ParseException, UnknownHostException
         receivePatient();
-        //receiveReport();
+        receiveReport();
         
     }
 
