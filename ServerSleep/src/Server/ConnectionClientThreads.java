@@ -40,16 +40,17 @@ public class ConnectionClientThreads implements Runnable{
             ins = new InputStreamReader(socket.getInputStream());
             buf = new BufferedReader(ins);
             //Tengo que leer: name,lastname,telep,addres,dni y gender
-            String line;
-            String name, lastname, telephone, address, dni, gender;
-            java.util.Date dob;
+            String line, total;
+            //String name, lastname, telephone, address, dni, gender;
+            //java.util.Date dob;
             while ((line = buf.readLine()) != null) {
                 if (line.toLowerCase().contains("finish")) {
                     System.out.println("Stopping the server.");
                     releaseResources(is,ins,buf, socket);//aqui ya cerramos el socket al meter finish
                     System.exit(0);
                 }
-                name = line;
+                total=buf.readLine();
+                /*name = line;
                 lastname = buf.readLine();
                 telephone = buf.readLine();
                 address = buf.readLine();
@@ -58,15 +59,17 @@ public class ConnectionClientThreads implements Runnable{
                 dni = buf.readLine();
                 gender = buf.readLine();
                 pat = new Patient(name, lastname, telephone, address, dob,dni, gender);
-                System.out.println(pat.toString());
+                System.out.println(pat.toString());*/
+                System.out.println(total);
             }
+            System.out.println("Patient was succesfully received.");
             
         } catch (IOException ex) {
             System.out.println("Not possible to start the server.");
             ex.printStackTrace();
-        } catch (ParseException ex) { //no estoy segura, sin esto me daba error la fecha
+        } /*catch (ParseException ex) { //no estoy segura, sin esto me daba error la fecha
             Logger.getLogger(ConnectionClientThreads.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        } */finally {
             releaseResources(is, ins, buf, socket);//cerramos socket al terminar
         }
     }

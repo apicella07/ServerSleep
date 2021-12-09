@@ -42,17 +42,18 @@ public class ConnectionReportThreads implements Runnable{
             System.out.println("Connection established from the address" + socket.getInetAddress());
             ins = new InputStreamReader(socket.getInputStream());
             buf = new BufferedReader(ins);
-            int year, month, day;
+            //int year, month, day;
             String line;
-            String dni,sleepqual,exhaus,average,movement,timeToFall,rest,stayAwake,timesAwake,dreams,worries,todaysMood,doubtsForDoctor;
-            String todaysDate, yearS;
+            //String dni, yearS,sleepqual,exhaus,average,movement,timeToFall,rest,stayAwake,timesAwake,dreams,worries,todaysMood,doubtsForDoctor;
+            String total;
             while ((line = buf.readLine()) != null) {
                 if (line.toLowerCase().contains("finish")) {
                     System.out.println("Stopping the server.");
-                    releaseResources(is, ins, buf, socket);
+                    //releaseResources(is, ins, buf, socket);
                     System.exit(0);
                 }
-                dni=buf.readLine();
+                total=buf.readLine();
+                /*dni=buf.readLine();
                  
                 todaysDate= buf.readLine();
                 yearS = todaysDate.substring(0, 3);
@@ -70,12 +71,13 @@ public class ConnectionReportThreads implements Runnable{
                 dreams=buf.readLine();
                 worries=buf.readLine();
                 todaysMood=buf.readLine();
-                doubtsForDoctor=buf.readLine();
+                doubtsForDoctor=buf.readLine();*/
                 //rep=new Report(todaysDate,sleepqual,exhaus,average,movement,timeToFall,rest,stayAwake,timesAwake,dreams,worries,todaysMood,doubtsForDoctor);
                 //System.out.println(rep.toString());
-                System.out.println("Report was succesfully received.");
+                System.out.println(total);  
             }
-            
+            System.out.println("Report was succesfully received.");
+        
         } catch (IOException ex) {
             System.out.println("Not possible to start the server.");
             ex.printStackTrace();
