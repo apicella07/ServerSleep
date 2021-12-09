@@ -32,44 +32,26 @@ public class ConnectionClientThreads implements Runnable{
         InputStream is = null;
         BufferedReader buf = null;
         InputStreamReader ins = null;
-        Patient pat = null;
-        SimpleDateFormat formato=null;
         try {
             is = socket.getInputStream();
-            System.out.println("Connection established from the address" + socket.getInetAddress());
+            System.out.println("Connection established from the address" + socket.getInetAddress()+"\n");
             ins = new InputStreamReader(socket.getInputStream());
             buf = new BufferedReader(ins);
-            //Tengo que leer: name,lastname,telep,addres,dni y gender
             String line, total;
-            //String name, lastname, telephone, address, dni, gender;
-            //java.util.Date dob;
             while ((line = buf.readLine()) != null) {
                 if (line.toLowerCase().contains("finish")) {
                     System.out.println("Stopping the server.");
-                    releaseResources(is,ins,buf, socket);//aqui ya cerramos el socket al meter finish
+                    releaseResources(is,ins,buf, socket);
                     System.exit(0);
                 }
-                total=buf.readLine();
-                /*name = line;
-                lastname = buf.readLine();
-                telephone = buf.readLine();
-                address = buf.readLine();
-                formato= new SimpleDateFormat("yyyy-MM-dd");
-                dob=formato.parse(buf.readLine());
-                dni = buf.readLine();
-                gender = buf.readLine();
-                pat = new Patient(name, lastname, telephone, address, dob,dni, gender);
-                System.out.println(pat.toString());*/
-                System.out.println(total);
+                System.out.println(line);
             }
             System.out.println("Patient was succesfully received.");
             
         } catch (IOException ex) {
             System.out.println("Not possible to start the server.");
             ex.printStackTrace();
-        } /*catch (ParseException ex) { //no estoy segura, sin esto me daba error la fecha
-            Logger.getLogger(ConnectionClientThreads.class.getName()).log(Level.SEVERE, null, ex);
-        } */finally {
+        } finally {
             releaseResources(is, ins, buf, socket);//cerramos socket al terminar
         }
     }

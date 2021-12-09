@@ -34,7 +34,7 @@ public class ConnectionFileThreads implements Runnable{
     BufferedWriter bfwriter =null;
     
         try {
-            flwriter = new FileWriter("./PatientFile.txt"); //esto se tiene que guardar en la base de datos para cada patient
+            flwriter = new FileWriter("./PatientFile.txt"); 
             boolean stopClient = false;
             bfwriter = new BufferedWriter(flwriter);
             inputStream = socket.getInputStream();
@@ -47,7 +47,6 @@ public class ConnectionFileThreads implements Runnable{
                     stopClient = true;
                 }
                 System.out.print(caracter);
-                //proyecto: escribir en un file distinto cada input de cada client 
             }            
             bfwriter.flush();
             System.out.println("File was succesfully received.");

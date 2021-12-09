@@ -4,22 +4,45 @@
  * and open the template in the editor.
  */
 package Server;
-import static Database.Menu.requestNumber;
 import java.io.*;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 import java.util.logging.*;
 /**
  *
  * @author marin
  */
 public class ConnectionClient  {
-       private static BufferedReader br;
+    private static BufferedReader br;
+     
+    private static int max;
+    private static int num,numUsing;
+    private static boolean inUse;
+   // no se usa --?  private static String answer;
+    
+    private static boolean s1,s2,s3;
+    
+    public static void main(String[] args) throws IOException {
+        receivePatient();
+        
+            }
+    
+    private static void releaseResources(ServerSocket serverSocket){
+       try {
+            serverSocket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+     public static void pressEnter() {
+		System.out.println("Press enter to go to the main menu and continue.");
+		try {
+			String nothing;
+			nothing = br.readLine();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
      public static int requestNumber(int max) {
 		// int max is the maximum option that is acceptable
 		 br = new BufferedReader(new InputStreamReader(System.in));
@@ -32,7 +55,7 @@ public class ConnectionClient  {
 
 		return num;
 	}
-    public static void receivePatient() throws IOException{
+     public static void receivePatient() throws IOException{
         ServerSocket serverSocket = new ServerSocket(9010);
         try{
             while (true) {
@@ -83,6 +106,7 @@ public class ConnectionClient  {
                             }
                             else{
                                 System.out.println("The server can not be closed because the open sockets");
+                                
                             }
                             System.exit(0);
                             break;
@@ -96,35 +120,5 @@ public class ConnectionClient  {
             releaseResources(serverSocket);
         }
     }
-    /*
-        public static void receiveFile() throws IOException{
-        ServerSocket serverSocket = new ServerSocket(9010);
-        try{
-            while (true) {
-                Socket socket = serverSocket.accept();
-                new Thread(new ConnectionFileThreads(socket)).start();
-
-            }
-        }finally{
-            releaseResources(serverSocket);
-        }
-    }*/
-    
-    private static void releaseResources(ServerSocket serverSocket){
-       try {
-            serverSocket.close();
-        } catch (IOException ex) {
-            Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-    }
-    
-    public static void main(String[] args) throws IOException {
-        // ClassNotFoundException, ParseException, UnknownHostException
-        
-        receivePatient();
-        
-    }
-
-
 }
 
