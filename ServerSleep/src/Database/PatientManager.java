@@ -97,7 +97,7 @@ public class PatientManager implements PatientManagerInterface  {
      * @return the Report with the corresponding information 
      */
     @Override
-            public  Report getDailyReport(java.util.Date  dateReport){
+    public  Report getDailyReport(java.util.Date  dateReport){
                 Report newreport = new Report();
                 String sql = "SELECT * FROM Reports WHERE Report_date LIKE ?";
         try {
@@ -105,20 +105,21 @@ public class PatientManager implements PatientManagerInterface  {
             prep.setString(1, "%"+dateReport+"%");
             ResultSet rs = prep.executeQuery();
             while(rs.next()){
+                String dni1=rs.getString("patient_dni");
                 java.util.Date repdate=rs.getDate("report_date");
-                            String quality=rs.getString("quality");
-                            String exhaust=rs.getString("exhaustion");
-                            String averageHours=rs.getString("hours");
-                            String movem=rs.getString("movement");
-                            String timeToFall=rs.getString("time");
-                            String res=rs.getString("rest");
-                            String awake=rs.getString("awake");
-                            String timAwake=rs.getString("times");
-                            String dreams=rs.getString("dreams");
-                            String worr=rs.getString("worries");
-                            String mood=rs.getString("mood");
-                            String doubts=rs.getString("doubts");
-                            newreport = new Report(repdate, quality, exhaust, averageHours, movem, timeToFall, res, awake, timAwake, dreams, worr, mood, doubts);
+                String quality=rs.getString("quality");
+                String exhaust=rs.getString("exhaustion");
+                String averageHours=rs.getString("hours");
+                String movem=rs.getString("movement");
+                String timeToFall=rs.getString("time");
+                String res=rs.getString("rest");
+                String awake=rs.getString("awake");
+                String timAwake=rs.getString("times");
+                String dreams=rs.getString("dreams");
+                String worr=rs.getString("worries");
+                String mood=rs.getString("mood");
+                String doubts=rs.getString("doubts");
+                newreport = new Report(dni1,repdate, quality, exhaust, averageHours, movem, timeToFall, res, awake, timAwake, dreams, worr, mood, doubts);
             }
         } catch (SQLException ex) {
             Logger.getLogger(PatientManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -126,6 +127,35 @@ public class PatientManager implements PatientManagerInterface  {
                 return newreport;
             }
             
+    public  Report getReportByDni(String dni){
+                Report newreport = new Report();
+                String sql = "SELECT * FROM Reports WHERE patient_dni LIKE ?";
+        try {
+            PreparedStatement prep = c.prepareStatement(sql);
+            prep.setString(1, "%"+dni+"%");
+            ResultSet rs = prep.executeQuery();
+            while(rs.next()){
+                String dni1=rs.getString("patient_dni");
+                java.util.Date repdate=rs.getDate("report_date");
+                String quality=rs.getString("quality");
+                String exhaust=rs.getString("exhaustion");
+                String averageHours=rs.getString("hours");
+                String movem=rs.getString("movement");
+                String timeToFall=rs.getString("time");
+                String res=rs.getString("rest");
+                String awake=rs.getString("awake");
+                String timAwake=rs.getString("times");
+                String dreams=rs.getString("dreams");
+                String worr=rs.getString("worries");
+                String mood=rs.getString("mood");
+                String doubts=rs.getString("doubts");
+                newreport = new Report(dni1,repdate, quality, exhaust, averageHours, movem, timeToFall, res, awake, timAwake, dreams, worr, mood, doubts);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PatientManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                return newreport;
+            }
     /**
      * Show all the patients that are in the Table Patients in the Database
      * @return an ArrayList of all the patients 
@@ -252,28 +282,7 @@ public class PatientManager implements PatientManagerInterface  {
 	}
 		return pat;
 		
-	}
-
-     public void addBitalinoFrame(Patient pat) {
-		try {
-     
-			String sql = "INSERT INTO Patients (name, lastname, telephone, address,DOB,dni,gender)"
-					+ " VALUES (?,?,?,?,?,?,?);";
-			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setString(1, pat.getName());
-			prep.setString(2, pat.getLastname());
-			prep.setString(3, pat.getTelephone());
-                        prep.setString(4, pat.getAddress());
-                        prep.setDate(5, (java.sql.Date) pat.getDateOfBirth());
-                        prep.setString(6, pat.getDni());
-                        prep.setString(7, pat.getGender());
-			prep.executeUpdate();
-			prep.close();
-			}
-		catch(Exception e) {
-			e.printStackTrace();
-			}
-	}      
+	}     
      
     /**
      *Method that prints the values of the EEG of an specific patient 

@@ -13,16 +13,17 @@ import java.util.Date;
 
 
 public interface PatientManagerInterface {
-   public void addpatientbyRegister(Patient pat);
-   public Patient searchSpecificPatientByDNI(String dni);
-   public  ArrayList<Patient> showPatients();
-   public  Patient getPatient(int pat_id);
-   public void addDailyreport(Report rep);
-   public ArrayList<Report> reportHistory(String dni);
-   public  Report getDailyReport(java.util.Date  dateReport);
-   public ArrayList<Signals> viewEEGHistory(String dni);
+    public void addpatientbyRegister(Patient pat);
+    public Patient searchSpecificPatientByDNI(String dni);
+    public  ArrayList<Patient> showPatients();
+    public  Patient getPatient(int pat_id);
+    public void addDailyreport(Report rep);
+    public ArrayList<Report> reportHistory(String dni);
+    public  Report getDailyReport(java.util.Date  dateReport);
+    public ArrayList<Signals> viewEEGHistory(String dni);
     public void viewEEGString(String dni);
     public void viewEEGStringLUX(String dni);
+    public  Report getReportByDni(String dni);
     
     
 

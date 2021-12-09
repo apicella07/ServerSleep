@@ -63,11 +63,8 @@ public class ConnectionClient  {
                 int max;
                 int num,numUsing;
                 boolean inUse;
-                String answer;
                 br = new BufferedReader(new InputStreamReader(System.in));
                 boolean s1 = true,s2 = true,s3 = true;
-                
-                // SET OF SOCKETS OPEN
                 
                 System.out.println("MENU SERVER TO SELECT CONNECTION");
                 while(true){
@@ -100,7 +97,7 @@ public class ConnectionClient  {
                 
                         default:
                             inUse=false;
-                            if(s1==true & s2==true & s3 ==true){
+                            if(s1==true || s2==true || s3 ==true){
                                 System.out.println("Closing the server");
                                 releaseResources(serverSocket);   
                             }

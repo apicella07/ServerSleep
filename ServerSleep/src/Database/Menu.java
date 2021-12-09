@@ -171,7 +171,6 @@ public class Menu {
        }
       
        public static int requestNumber(int max) {
-		// int max is the maximum option that is acceptable
 		int num;
 		do {
 

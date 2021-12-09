@@ -17,9 +17,14 @@ import java.time.format.DateTimeParseException;
  * @author marin
  */
 public class ui {
-    
-    
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    
+    /**
+     * To accept only both genders, female or male, writing f or m. And do not accept another words.
+     * @param reader a buffered reader to accept text from the console
+     * @param text The text that is going to be seen by console.
+     * @return the string of the gender
+     */
     public static String takeGender(BufferedReader reader, String text) {
 		String gender = " ";
 		String answer;
@@ -49,6 +54,13 @@ public class ui {
 		}
 		return gender;
 	}
+    
+    /**
+     * Take a date writen by console and converted it in the format of date LocalDate.
+     * @param reader a buffered reader to accept text from the console
+     * @param text The text that is going to be seen by console.
+     * @return the date that has been introduced by console.
+     */
     public static LocalDate takeDate(BufferedReader reader, String text) {
 		boolean check = false;
 		String data = "";
@@ -68,6 +80,13 @@ public class ui {
 		}
 		return day;
 	}
+
+    /**
+     * take by console 9 numbers and only integers. Make you to repeat if you introduced another thing or more than 9.
+     * @param reader a buffered reader to accept text from the console
+     * @param text The text that is going to be seen by console.
+     * @return
+     */
     public static String takeTelephone(BufferedReader reader, String text) {
 		String num="reader";
 		boolean check = true;

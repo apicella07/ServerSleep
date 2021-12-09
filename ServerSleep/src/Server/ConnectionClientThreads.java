@@ -37,7 +37,7 @@ public class ConnectionClientThreads implements Runnable{
             System.out.println("Connection established from the address" + socket.getInetAddress()+"\n");
             ins = new InputStreamReader(socket.getInputStream());
             buf = new BufferedReader(ins);
-            String line, total;
+            String line;
             while ((line = buf.readLine()) != null) {
                 if (line.toLowerCase().contains("finish")) {
                     System.out.println("Stopping the server.");
