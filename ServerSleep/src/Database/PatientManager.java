@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 
 
+
 public class PatientManager implements PatientManagerInterface  {
 
    private Connection c;
@@ -22,8 +23,11 @@ public class PatientManager implements PatientManagerInterface  {
 		this.c=connection;
 	}
 	
-		
-            public void addDailyreport(Report rep) {
+    /**
+     *Insert into table Reports a new report of the patient 
+     * @param rep Object of type Report with all its attributes
+     */
+    public void addDailyreport(Report rep) {
 		try {
      
 			String sql = "INSERT INTO Reports (patient_dni, report_date, quality, exhaustion,hours,movement,time, rest,awake,times,worries, mood, doubts)"
@@ -49,7 +53,12 @@ public class PatientManager implements PatientManagerInterface  {
 			}
 	}
             
-        public ArrayList<Report> reportHistory(String dni){
+    /**
+     *Obtaining all the information of the report knowing the dni of the patient
+     * @param dni
+     * @return an ArrayList of Reports that the patient with that DNI has
+     */
+    public ArrayList<Report> reportHistory(String dni){
         ArrayList<Report> repList = new ArrayList<Report>();
         try {
                 String sql = "SELECT * FROM Reports WHERE patient_dni LIKE ?";
@@ -82,9 +91,11 @@ public class PatientManager implements PatientManagerInterface  {
         return repList;
     }
 
-            
-            
-            
+    /**
+     *Getting an specific report of a patient specifying the Date of the report 
+     * @param dateReport date of the report you are looking for
+     * @return the Report with the corresponding information 
+     */
     @Override
             public  Report getDailyReport(java.util.Date  dateReport){
                 Report newreport = new Report();
@@ -115,8 +126,11 @@ public class PatientManager implements PatientManagerInterface  {
                 return newreport;
             }
             
-          
-	public  ArrayList<Patient> showPatients() {
+    /**
+     * Show all the patients that are in the Table Patients in the Database
+     * @return an ArrayList of all the patients 
+     */
+    public  ArrayList<Patient> showPatients() {
 		ArrayList<Patient> patList = new ArrayList<Patient>();
                 //Connection c1 = null; //ESTO NO ES ASÃ, SÃ“LO QUE HAY QUE INICIALIZARLA PARA QUE NO DE ERROR
 		try {
@@ -142,8 +156,10 @@ public class PatientManager implements PatientManagerInterface  {
 		return patList;
 	}
 
-    
-	
+    /**
+     *Adding a Patient's object to the table Patients in the Database 
+     * @param pat object of Patient with all its attributes 
+     */
     @Override
             public void addpatientbyRegister(Patient pat) {
 		try {
@@ -166,32 +182,42 @@ public class PatientManager implements PatientManagerInterface  {
 			}
 	}
   
+    /**
+     * Returns a Patient's object with all its attributes knowing the DNI
+     * @param dni of the patient you are looking for 
+     * @return the patient with this dni or null if there is not patient in the database with this dni
+     */
     @Override
-         public  Patient searchSpecificPatientByDNI(String dni){
-             Patient patientfound=new Patient();
-		try {
-			String sql = "SELECT * FROM Patients WHERE dni LIKE ?";
-			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setString(1, "%"+dni+"%");
-			ResultSet rs = prep.executeQuery();
-			
-			while(rs.next()) {
-				int id = rs.getInt("patient_id");
-				String name = rs.getString("name");
-				String lastname = rs.getString("lastname");
-                                String tele = rs.getString("telephone");
-                                String address = rs.getString("address");
-                                java.util.Date dob=rs.getDate("dob");
-                                String gender = rs.getString("gender");
-				patientfound = new Patient(id,name,lastname,tele,address,dob,dni,gender);
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return patientfound;
-         }
+    public  Patient searchSpecificPatientByDNI(String dni){
+         Patient patientfound=null;
+            try {
+                String sql = "SELECT * FROM Patients WHERE dni LIKE ?";
+                PreparedStatement prep = c.prepareStatement(sql);
+                prep.setString(1, "%"+dni+"%");
+                ResultSet rs = prep.executeQuery();
 
-	public  Patient getPatient(int pat_id) {
+                while(rs.next()) {
+                        int id = rs.getInt("patient_id");
+                        String name = rs.getString("name");
+                        String lastname = rs.getString("lastname");
+                        String tele = rs.getString("telephone");
+                        String address = rs.getString("address");
+                        java.util.Date dob=rs.getDate("dob");
+                        String gender = rs.getString("gender");
+                        patientfound = new Patient(id,name,lastname,tele,address,dob,dni,gender);
+                }
+            }catch(Exception e) {
+                    e.printStackTrace();
+            }
+            return patientfound;
+     }
+
+    /**
+     * Returns a patient object with known attributes knowing the dni
+     * @param pat_id the dni of the patient you are looking for 
+     * @return a patient's object with this dni
+     */
+    public  Patient getPatient(int pat_id) {
                 Patient pat = new Patient();
                 Connection c1 = null;
                 
@@ -249,95 +275,70 @@ public class PatientManager implements PatientManagerInterface  {
 			}
 	}      
      
-  
-    public Signals viewEEG(String dni, java.util.Date date) {
-         Signals eeg = new Signals();
-         ArrayList<Integer> values=new ArrayList<>();
-         String[] valuesString;
-         Connection c1 = null; 
-            try {
-			String sql = "SELECT patient_id FROM Patients WHERE DNI = ?";
-			PreparedStatement prep = c1.prepareStatement(sql);
-			prep.setString(1, "%"+dni+"%");
-                        ResultSet rs = prep.executeQuery();
-                        int id = rs.getInt("patient_id");
-                        
-                        String sql1= "SELECT EEG FROM EEGs WHERE patient_id =? AND EEG_DATE= ?";
-                        PreparedStatement prep1 = c1.prepareStatement(sql1);
-			prep1.setString(1, "%"+id+"%");
-                        prep1.setString(2, "%"+date+"%");  //NO SE SI ESTO ESTA BIEN PORQUE DEBERIA SER SetDate PEOR DA ERROR
-                        
-			ResultSet rs2 = prep1.executeQuery();
-                        while (rs2.next()) {
-                            String EEG=rs2.getString("EEG");
-                            valuesString=EEG.split("\\s+"); //LO SEPARA POR ESPACIOS SE SUPONE
-                            for (int i=0; i<valuesString.length;i++){
-                               values.add(Integer.parseInt(valuesString[i])); 
-                            }
-                            eeg =new Signals(date,dni,values); 
-                      }	
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-            return eeg;
+    /**
+     *Method that prints the values of the EEG of an specific patient 
+     * @param dni of the patient you are looking for 
+     */
+    public void viewEEGString(String dni) {
+        
+         try {
+            String sql1= "SELECT eeg FROM EEGs WHERE patient_dni LIKE ?";
+            PreparedStatement prep1 = c.prepareStatement(sql1);
+            prep1.setString(1, "%"+dni+"%");
+            ResultSet rs2 = prep1.executeQuery();
+            while (rs2.next()) {
+                String eegString=rs2.getString("EEG");
+                System.out.println("The eeg values are: "+eegString); //NI SIQUIERA SE HACE ESTO CUANDO LO DESCOMENTO!!!!!!
+            }  	
+        }catch (SQLException ex) {
+            Logger.getLogger(PatientManager.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
-    public Signals viewEEGLUX(String dni, java.util.Date date) {
-         Signals eeg = new Signals();
-         ArrayList<Integer> values=new ArrayList<>();
-         String[] valuesString;
-         Connection c1 = null; 
-            try {
-			String sql = "SELECT patient_id FROM Patients WHERE DNI = ?";
-			PreparedStatement prep = c1.prepareStatement(sql);
-			prep.setString(1, "%"+dni+"%");
-                        ResultSet rs = prep.executeQuery();
-                        int id = rs.getInt("patient_id");
-                        
-                        String sql1= "SELECT EEG_LUX FROM EEGs WHERE patient_id =? AND EEG_DATE= ?";
-                        PreparedStatement prep1 = c1.prepareStatement(sql1);
-			prep1.setString(1, "%"+id+"%");
-                        prep1.setString(2, "%"+date+"%");  //NO SE SI ESTO ESTA BIEN PORQUE DEBERIA SER SetDate PEOR DA ERROR
-                        
-			ResultSet rs2 = prep1.executeQuery();
-                        while (rs2.next()) { 
-                            String EEG=rs2.getString("EEG");  
-                            valuesString=EEG.split("\\s+"); //LO SEPARA POR ESPACIOS SE SUPONE
-                            for (int i=0; i<valuesString.length;i++){
-                               values.add(Integer.parseInt(valuesString[i])); 
-                            }
-                            eeg=new Signals(date,dni,values); 
-                      }	
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-        return eeg;
+     
+    /**
+     * Method that prints the values of EEG with LUX of an specific patient
+     * @param dni of the patient you are looking for 
+     */
+    public void viewEEGStringLUX(String dni) {
+        
+         try {
+            String sql1= "SELECT eeg_lux FROM EEGs WHERE patient_dni LIKE ?";
+            PreparedStatement prep1 = c.prepareStatement(sql1);
+            prep1.setString(1, "%"+dni+"%");
+            ResultSet rs2 = prep1.executeQuery();
+            while (rs2.next()) {
+                String eegString=rs2.getString("EEG_LUX");
+                System.out.println("The eeg values with LUX are: "+eegString);
+            }  	
+        }catch (SQLException ex) {
+            Logger.getLogger(PatientManager.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 
+    /**
+     *Gives an ArrayList of the signals of the patient you are looking for 
+     * @param dni of the patient you are looking for 
+     * @return an ArrayList of the signals obtained or that specific patient's has
+     */
+    @Override
     public ArrayList<Signals> viewEEGHistory(String dni) {
          ArrayList<Signals> eegs = new ArrayList<Signals>();
          ArrayList<Integer> values=new ArrayList<>();
          String[] valuesString;
          Connection c1 = null;
             try {
-			String sql = "SELECT patient_id FROM Patients WHERE DNI = ?";
-			PreparedStatement prep = c1.prepareStatement(sql);
-			prep.setString(1, "%"+dni+"%");
-                        ResultSet rs = prep.executeQuery();
-                        int id = rs.getInt("patient_id");
-                        
-                        String sql1= "SELECT * FROM EEGs WHERE patient_id =?";
-                        PreparedStatement prep1 = c1.prepareStatement(sql1);
-			prep1.setString(1, "%"+id+"%");
+                        String sql1= "SELECT * FROM EEGs WHERE patient_dni LIKE ?";
+                        PreparedStatement prep1 = c.prepareStatement(sql1);
+			prep1.setString(1, "%"+dni+"%");
 			ResultSet rs2 = prep1.executeQuery();
                         while (rs2.next()) {
                             String dni1=rs2.getString("patient_dni");
                             java.util.Date date = rs2.getDate("EEG_date");
                             String EEG=rs2.getString("EEG");
-                            valuesString=EEG.split("\\s+"); //LO SEPARA POR ESPACIOS SE SUPONE
-                            for (int i=0; i<valuesString.length;i++){
-                               values.add(Integer.parseInt(valuesString[i]));
-                            }
-                            Signals eeg= new Signals(date,dni,values);
+                            String eeg_lux=rs2.getString("EEG_LUX");
+                            //LocalDate date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                            //System.out.println(date1);
+                            Signals eeg= new Signals(date,dni);
                             eegs.add(eeg);
                         }
 		}catch(Exception e) {
@@ -345,6 +346,10 @@ public class PatientManager implements PatientManagerInterface  {
 		}
             return eegs;
     }
+	  
 
 	
 }
+
+
+

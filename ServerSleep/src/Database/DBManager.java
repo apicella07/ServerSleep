@@ -10,11 +10,9 @@ import Server.User;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class DBManager implements DBManagerInterface {
 
-	
-     
+
     
     private Connection c;
     private PatientManager patient;
@@ -23,6 +21,9 @@ public class DBManager implements DBManagerInterface {
         super();
     }
 
+    /**
+     * Connecting our database to the project 
+     */
     public void connect() {
         try {
             String url = "jdbc:sqlite:lib/db/SleepControlDB2.db";
@@ -41,6 +42,9 @@ public class DBManager implements DBManagerInterface {
         this.c = c;
     }
 
+    /**
+     *Disconnecting our database linked with the project
+     */
     public void disconnect() {
         try {
             // Close database connection
@@ -52,6 +56,10 @@ public class DBManager implements DBManagerInterface {
 
     }
 
+    /**
+     *Creating the tables of our database named SleepControlDB2.db 
+     * There are four different tables: Patients, Users, Reports and EEGs
+     */
     public void createTables() {
         try {
             // Open database connection
@@ -160,6 +168,9 @@ public class DBManager implements DBManagerInterface {
         return result;
     }
 
+    /**
+     *Deleting the four tables previously created that are in our Database SleepControlDB2.db
+     */
     public void deleteTables() {
         try {
 
@@ -185,4 +196,3 @@ public class DBManager implements DBManagerInterface {
     }
 
 }
-

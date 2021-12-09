@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Objects;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -35,8 +37,7 @@ public class Patient implements Serializable{
     private Date dateOfBirth;
     private String dni;
     private String gender;
-    private  List<Integer> recordedEEG;
-    private  List<Integer> recordedLUX;
+    private static File patFile;
 
     public Patient() {
         super();
@@ -59,29 +60,7 @@ public class Patient implements Serializable{
         this.address = addres;
     }
 
-    public Patient(String name, String lastname, String telephone, String address, String dni, String gender) {
-
-        this.name = name;
-        this.lastname = lastname;
-        this.telephone = telephone;
-        this.address = address;
-        this.dni = dni;
-        this.gender = gender;
-    }
-
-    public Patient(String name, String lastname, String telephone, String address, Date dateOfBirth, String dni, String gender, List<Integer> recordedEEG, List<Integer> recordedLUX) {
-
-        this.name = name;
-        this.lastname = lastname;
-        this.telephone = telephone;
-        this.address = address;
-        this.dateOfBirth = dateOfBirth;
-        this.dni = dni;
-        this.gender = gender;
-        this.recordedEEG = recordedEEG;
-        this.recordedLUX = recordedLUX;
-        
-    }
+   
 
     public Patient(String name, String lastname, String telephone, String address, Date dateOfBirth, String dni, String gender) {
 
@@ -95,28 +74,24 @@ public class Patient implements Serializable{
 
     }
 
-    public Patient(Integer id, String name, String lastname, String telephone) {
-        super();
-        this.id = id;
-        this.name = name;
-        this.lastname = lastname;
-        this.telephone = telephone;
-    }
 
-    public Patient(String name, String lastname, String telephone) {
-        super();
-        this.name = name;
-        this.lastname = lastname;
-        this.telephone = telephone;
-    }
-
-
-    public static void createFile(List<Integer> EEG, List<Integer> LUX) { //calls for the recorded frame everytime
-
+    
+ public static void createFile(List<Integer> EEG, List<Integer> LUX) { //calls for the recorded frame everytime
+        Patient pat = new Patient();
         FileWriter flwriter = null;
         try {
-            flwriter = new FileWriter("./recordedSignal.txt");
+            
+            flwriter = new FileWriter("./recordedSignal_"+pat.getName()+".txt");
             BufferedWriter bfwriter = new BufferedWriter(flwriter);
+           //falta añadir al file el nombre del paciente y la fecha y hora pero hay que pasarle el paciente
+           // bfwriter.write(name + System.lineSeparator());
+           // bfwriter.write(date + System.lineSeparator());
+
+           bfwriter.write(pat.getName());
+           LocalDate localdate = LocalDate.now();
+           String date = localdate.toString();
+           bfwriter.write(date);
+           
             int size = EEG.size();
             for (int i = 0; i < size; i++) {
                 String str = EEG.get(i).toString();
@@ -145,22 +120,33 @@ public class Patient implements Serializable{
 
     }
 
-    public List<Integer> getRecordedEEG() {
-        return recordedEEG;
-    }
+    public static void readFile() throws IOException {
+        String strng;
 
-    public void setRecordedEEG(List<Integer> recordedEEG) {
-        this.recordedEEG = recordedEEG;
-    }
+        try {
+            File file = new File("./recordedSignal.txt");
+            BufferedReader obj = new BufferedReader(new FileReader(file));
 
-    public List<Integer> getRecordedLUX() {
-        return recordedLUX;
-    }
+            while ((strng = obj.readLine()) != null) {
 
-    public void setRecordedLUX(List<Integer> recordedLUX) {
-        this.recordedLUX = recordedLUX;
-    }
+                System.out.println(strng);
+            }
+            patFile = file;
 
+            System.out.println("File was successfully read..");
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+            }
+
+        }
+    }
 
     public Integer getId() {
         return id;
@@ -232,7 +218,7 @@ public class Patient implements Serializable{
 
     @Override
     public String toString() {
-        return "Patient{" + "id=" + id + ", name=" + name + ", lastname=" + lastname + ", telephone=" + telephone + ", address=" + address + ", dateOfBirth=" + dateOfBirth + ", dni=" + dni + ", gender=" + gender + ", recordedEEG=" + recordedEEG +", recordedLUX=" +recordedLUX+ '}';
+        return "Patient{" + "id=" + id + ", name=" + name + ", lastname=" + lastname + ", telephone=" + telephone + ", address=" + address + ", dateOfBirth=" + dateOfBirth + ", dni=" + dni + ", gender= "+gender+ '}';
     }
 
    
