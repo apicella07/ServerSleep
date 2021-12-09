@@ -59,7 +59,6 @@ public class ConnectionClient  {
         ServerSocket serverSocket = new ServerSocket(9010);
         try{
             while (true) {
-                //Socket socket = serverSocket.accept();
                 int max;
                 int num,numUsing;
                 boolean inUse;
@@ -74,7 +73,6 @@ public class ConnectionClient  {
                     System.out.println("0. Exit.\n");
                     num=requestNumber(max);
                     numUsing=num;
-                    //num=Integer.parseInt(reader.readLine());
                     inUse=true;
                 
                     while(inUse){
@@ -109,8 +107,6 @@ public class ConnectionClient  {
                             break;
                     }
                     }
-                // SI ES 4 O CUALQUIER COSA PARA CERRAR 
-                // VERIFICO QUE EL SET DE CONEXIONES (SOCKETS) TIENE TODOS LOS SOCKETS CERRADOS
                 }
             }
         }finally{

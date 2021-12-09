@@ -6,8 +6,6 @@
 package Server;
 
 import java.io.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -85,7 +83,7 @@ public class ui {
      * take by console 9 numbers and only integers. Make you to repeat if you introduced another thing or more than 9.
      * @param reader a buffered reader to accept text from the console
      * @param text The text that is going to be seen by console.
-     * @return
+     * @return an String of the 9 numbers of the telephone.
      */
     public static String takeTelephone(BufferedReader reader, String text) {
 		String num="reader";
@@ -125,6 +123,13 @@ public class ui {
 		return num;
 
 	}
+
+    /**
+     * Makes you sure if you want to do something or not.
+     * @param reader a buffered reader to accept text from the console
+     * @param text The text that is going to be seen by console.
+     * @return a true if you are sure and a false if not.
+     */
     public static boolean areYouSure(BufferedReader reader, String text) {
 		boolean resp = false;
 		boolean loop = false;
@@ -153,6 +158,12 @@ public class ui {
 		return resp;
 	}
     
+    /**
+     * Take by console 8 numbers and only integers. Make you to repeat if you introduced another thing or more than 8.
+     * @param reader a buffered reader to accept text from the console
+     * @param text The text that is going to be seen by console.
+     * @return an String of the 8 numbers of the DNI.
+     */
     public static String takeDNI(BufferedReader reader, String text) {
 		
 		String num = "error in takeDNI()";
@@ -193,6 +204,12 @@ public class ui {
 
 	}
     
+    /**
+     * Take by console only an integer, if not it will repeat till you insert integer.
+     * @param reader a buffered reader to accept text from the console
+     * @param text The text that is going to be seen by console.
+     * @return the integer that you insert by console..
+     */
     public static int takeInteger(BufferedReader reader, String text) {
 		boolean check = false;
 		int data = 0;
