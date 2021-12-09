@@ -18,7 +18,6 @@ public class ConnectionClient  {
     private static int max;
     private static int num,numUsing;
     private static boolean inUse;
-   // no se usa --?  private static String answer;
     
     private static boolean s1,s2,s3;
     
@@ -44,7 +43,6 @@ public class ConnectionClient  {
 		}
 	}
      public static int requestNumber(int max) {
-		// int max is the maximum option that is acceptable
 		 br = new BufferedReader(new InputStreamReader(System.in));
                 int num;
 		do {
