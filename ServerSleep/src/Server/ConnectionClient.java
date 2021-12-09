@@ -24,7 +24,22 @@ public class ConnectionClient  {
         try{
             while (true) {
                 Socket socket = serverSocket.accept();
+                
+                
+                // SET OF SOCKETS OPEN
+                
+                // desplegable que elija la accion y segun la accion ejecuto un thread u otro 
+                // RECIBO INT CON LA OPCION DEL USUARIO
+                // SI ES 1
                 new Thread(new ConnectionClientThreads(socket)).start();
+                // SI ES 2
+                // OTRO THREAD
+                
+                // SI ES 3
+                // OTRO THREAD
+                
+                // SI ES 4 O CUALQUIER COSA PARA CERRAR 
+                // VERIFICO QUE EL SET DE CONEXIONES (SOCKETS) TIENE TODOS LOS SOCKETS CERRADOS
                 
             }
         }finally{
