@@ -35,13 +35,18 @@ public class ConnectionFileThreads implements Runnable{
     
         try {
             flwriter = new FileWriter("./PatientFile.txt"); //esto se tiene que guardar en la base de datos para cada patient
-        
+            boolean stopClient = false;
             bfwriter = new BufferedWriter(flwriter);
             inputStream = socket.getInputStream();
-            while ((byteRead = inputStream.read()) != -1) {
+            while (!stopClient) {
+                byteRead = inputStream.read();
                 char caracter = (char) byteRead;
                 bfwriter.write(caracter);
-               // System.out.print(caracter);
+                if (byteRead == -1 || byteRead == 'x') {
+                    System.out.println("Character reception finished");
+                    stopClient = true;
+                }
+                System.out.print(caracter);
                 //proyecto: escribir en un file distinto cada input de cada client 
             }            
             bfwriter.flush();
@@ -52,12 +57,6 @@ public class ConnectionFileThreads implements Runnable{
         }finally {
             releaseResourcesFile(bfwriter,inputStream, flwriter ,socket);
         }
-    }
-    
-    public static void main(String[] args) throws IOException {
-        // ClassNotFoundException, ParseException, UnknownHostException
-        
-        
     }
     
     private static void releaseResourcesFile(BufferedWriter bu,InputStream inputStream,FileWriter flwriter , Socket socket) {

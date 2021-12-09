@@ -13,6 +13,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,9 +42,10 @@ public class ConnectionReportThreads implements Runnable{
             System.out.println("Connection established from the address" + socket.getInetAddress());
             ins = new InputStreamReader(socket.getInputStream());
             buf = new BufferedReader(ins);
+            int year, month, day;
             String line;
             String dni,sleepqual,exhaus,average,movement,timeToFall,rest,stayAwake,timesAwake,dreams,worries,todaysMood,doubtsForDoctor;
-            Date todaysDate;
+            String todaysDate, yearS;
             while ((line = buf.readLine()) != null) {
                 if (line.toLowerCase().contains("finish")) {
                     System.out.println("Stopping the server.");
@@ -51,8 +53,12 @@ public class ConnectionReportThreads implements Runnable{
                     System.exit(0);
                 }
                 dni=buf.readLine();
-                formato= new SimpleDateFormat("yyyy-MM-dd");
-                todaysDate=formato.parse(buf.readLine());
+                 
+                todaysDate= buf.readLine();
+                yearS = todaysDate.substring(0, 3);
+                year= Integer.parseInt(yearS);
+                
+                
                 sleepqual = buf.readLine();
                 exhaus = buf.readLine();
                 average = buf.readLine();
@@ -65,15 +71,14 @@ public class ConnectionReportThreads implements Runnable{
                 worries=buf.readLine();
                 todaysMood=buf.readLine();
                 doubtsForDoctor=buf.readLine();
-                rep=new Report(todaysDate,sleepqual,exhaus,average,movement,timeToFall,rest,stayAwake,timesAwake,dreams,worries,todaysMood,doubtsForDoctor);
-                System.out.println(rep.toString());
+                //rep=new Report(todaysDate,sleepqual,exhaus,average,movement,timeToFall,rest,stayAwake,timesAwake,dreams,worries,todaysMood,doubtsForDoctor);
+                //System.out.println(rep.toString());
+                System.out.println("Report was succesfully received.");
             }
             
         } catch (IOException ex) {
             System.out.println("Not possible to start the server.");
             ex.printStackTrace();
-        } catch (ParseException ex) {
-            Logger.getLogger(ConnectionReportThreads.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
              releaseResources(is, ins, buf, socket);
         }

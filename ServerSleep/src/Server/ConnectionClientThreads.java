@@ -46,7 +46,7 @@ public class ConnectionClientThreads implements Runnable{
             while ((line = buf.readLine()) != null) {
                 if (line.toLowerCase().contains("finish")) {
                     System.out.println("Stopping the server.");
-                    releaseResources(is,ins,buf, socket);
+                    releaseResources(is,ins,buf, socket);//aqui ya cerramos el socket al meter finish
                     System.exit(0);
                 }
                 name = line;
@@ -67,9 +67,8 @@ public class ConnectionClientThreads implements Runnable{
         } catch (ParseException ex) { //no estoy segura, sin esto me daba error la fecha
             Logger.getLogger(ConnectionClientThreads.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            releaseResources(is, ins, buf, socket);
+            releaseResources(is, ins, buf, socket);//cerramos socket al terminar
         }
-        
     }
     
      private static void releaseResources(InputStream i, InputStreamReader in,BufferedReader bu, Socket socket) {
