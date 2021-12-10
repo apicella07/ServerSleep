@@ -103,7 +103,7 @@ public class Menu {
     public static void searchbyDNI() throws IOException{
         boolean check = true;
         do {
-            System.out.println("Type the dni of the patient you want to search" );
+            System.out.println("Type the DNI of the patient you want to search:" );
             String dniobtained = br.readLine();
             patientUsing = pmi.searchSpecificPatientByDNI(dniobtained);
             if (patientUsing!=null) {
